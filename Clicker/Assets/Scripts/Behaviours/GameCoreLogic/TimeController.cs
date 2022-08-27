@@ -21,6 +21,7 @@ public class TimeController : MonoBehaviour
     private float timeLeftInMinutes = 0;
     private bool isNeedToBreakCycle = false;
     private int day = 0;
+    private int seconds = 0;
 
     public float TimePerDay => realMinutesInDay;
     public int Day 
@@ -40,6 +41,7 @@ public class TimeController : MonoBehaviour
     {
         if(Instance == null)
             Instance = this;
+        OnSecondChanging += () => { seconds++; };
         //read time and data from file
         StartCoroutine(Timer());
     }
@@ -57,14 +59,15 @@ public class TimeController : MonoBehaviour
             time = realMinutesInDay * 60;
         }
 
+        
         float currentTime = 0;
         while (currentTime < time)
         {
-            if (isNeedToBreakCycle)
-            {
-                isNeedToBreakCycle = false;
-                yield break;
-            }
+            //if (isNeedToBreakCycle)
+            //{
+            //    isNeedToBreakCycle = false;
+            //    yield break;
+            //}
             yield return new WaitForSeconds(1);
             currentTime++;
             OnSecondChanging?.Invoke();
